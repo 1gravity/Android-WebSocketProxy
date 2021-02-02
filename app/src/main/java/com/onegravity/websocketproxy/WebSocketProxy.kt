@@ -60,7 +60,7 @@ class WebSocketProxy(
                     is Started -> emitter.onComplete()
                     is Message -> client?.send(it.content)
                     is MessageByte -> client?.send(it.content)
-                    is Error -> {}
+                    is Error -> emitter.onError(it.ex)
                 }
             }, {
                 logger.e("Error processing client events", it)
