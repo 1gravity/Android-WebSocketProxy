@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Websocket Proxy</string>
+    <!-- Settings Activity Title -->
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Proxy Preferences -->
+    <string name="proxy_header">Websocket Proxy</string>
+    <string name="proxy_switch">Run Websocket Proxy</string>
+    <string name="proxy_server_address">Proxying to</string>
+    <string name="proxy_port">Listening on port</string>
+
+</resources>

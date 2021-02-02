@@ -1,0 +1,21 @@
+<androidx.preference.PreferenceScreen
+    app:key="proxy_screen"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:key="proxy_switch"
+        app:title="@string/proxy_switch" />
+
+    <androidx.preference.EditTextPreference
+        app:key="port"
+        app:title="@string/proxy_port"
+        app:summary="4444"
+        app:defaultValue="4444"/>
+
+    <androidx.preference.EditTextPreference
+        app:key="address"
+        app:title="@string/proxy_server_address"
+        app:summary="ws://echo.websocket.org:80"
+        app:defaultValue="ws://echo.websocket.org:80"/>
+
+</androidx.preference.PreferenceScreen>
