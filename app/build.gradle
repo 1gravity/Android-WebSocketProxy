@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -23,8 +24,8 @@ android {
         release {
             storeFile file(ONEGRAVITY_KEYSTORE_FILE)
             storePassword ONEGRAVITY_KEYSTORE_PASSWORD
-            keyAlias ONEGRAVITY_TICHUSCORE_KEY_ALIAS
-            keyPassword ONEGRAVITY_TICHUSCORE_KEY_PASSWORD
+            keyAlias ONEGRAVITY_WEBSOCKET_KEY_ALIAS
+            keyPassword ONEGRAVITY_WEBSOCKET_KEY_PASSWORD
         }
     }
 
@@ -36,8 +37,8 @@ android {
         }
         release {
             debuggable false
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -61,6 +62,30 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
+    }
+
+    // let's put the variant name and the version number into the generated apk
+    android.applicationVariants.all { variant ->
+        project.logger.lifecycle('  processing variant: ' + variant.versionName)
+
+        def appName
+        //Check if an applicationName property is supplied; if not use the name of the parent project.
+        if (project.hasProperty("applicationName")) {
+            appName = applicationName
+        } else {
+            appName = parent.name
+        }
+
+        variant.outputs.all { output ->
+            def lintTask = tasks["lint${variant.name.capitalize()}"]
+            output.assemble.dependsOn lintTask
+
+            def newApkName
+
+            //If there's no ZipAlign task it means that our artifact will be unaligned and we need to mark it as such.
+            newApkName = "${appName}-${variant.versionName}.apk"
+            outputFileName = new File(newApkName)
+        }
     }
 }
 
